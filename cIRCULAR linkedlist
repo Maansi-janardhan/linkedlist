@@ -1,0 +1,198 @@
+// Online C compiler to run C program online
+#include<stdio.h>
+#include<stdlib.h>
+#define max 15
+int count=0;
+struct node
+{
+   int data;
+   struct node*next;
+}*nn,*first=NULL,*temp;
+void creation();
+void insertion();
+void deletion();
+void traversal();
+void search();
+void main()
+{
+int ch;
+while(1)
+ {
+     printf("operation to be performed on circular linked list \n");
+     printf("1.creation 2.insertion 3.deletion 4.traversal 5.search 6.exit");
+     printf("\n enter your choice");
+     scanf("%d",&ch);
+    switch(ch)
+   {
+      case 1:creation();
+      break;
+      case 2:insertion();
+      break;
+      case 3:deletion();
+      break;
+      case 4:traversal();
+             break;
+      case 5:search();
+             break;
+      case 6:exit(0);
+             break;
+       default:printf("invalid choice");
+       break;
+   }
+ }
+}
+void creation()
+{
+    int x,ch;
+    do
+   {
+      nn=(struct node*)malloc(sizeof(struct node));
+      printf("enter data");
+      scanf("%d",&x);
+      nn->data=x;
+      nn->next=NULL;
+      if(first==NULL)
+     {
+        first=nn;
+        temp=nn;
+        first->next=first;
+     }
+    else
+    {
+       temp->next=nn;
+       temp=nn;
+       temp->next=first;
+    }
+    count++;
+    printf("do you want create new node (0/1)");
+     scanf("%d",&ch);
+   } while(ch==1);
+}
+void insertion()
+{
+int x,pos,i;
+nn=(struct node*)malloc(sizeof(struct node));
+printf("enter data");
+scanf("%d",&x);
+nn->data=x;
+nn->next=NULL;
+printf("enter pos");
+scanf("%d",&pos);
+if(pos==1)
+{
+ nn->next=first;
+ first=nn;
+ temp=first;
+ for(i=0;i<count;i++)
+ {
+ temp=temp->next;
+ }
+ temp->next=first;
+ count++;
+}
+else if(pos==count++)
+{
+ temp=first;
+ for(i=1;i<count;i++)
+ {
+ temp=temp->next;
+ }
+ temp->next=nn;
+ nn->next=first;
+ count++;
+}
+else if(pos>1 && pos<=count)
+{
+ temp=first;
+ for(i=1;i<pos-1;i++)
+ {
+ temp=temp->next;
+ }
+ nn->next=temp->next;
+ temp->next=nn;
+ count++;
+}
+else
+{
+ printf("invalid choice");
+}
+}
+void deletion()
+{
+ int i,pos;
+ struct node*ptr;
+ printf("enter pos");
+ scanf("%d",&pos);
+ if(pos==1)
+ {
+ temp=first;
+ ptr=first;
+ for(i=1;i<count;i++)
+ {
+ temp=temp->next;
+ }
+ first=first->next;
+ temp->next=first;
+ free(ptr);
+ count--;
+ }
+ else if(pos==count)
+ {
+ temp=first;
+ for(i=1;i<pos-1;i++)
+ {
+ temp=temp->next;
+ }
+ ptr=temp->next;
+ temp->next=first;
+ free(ptr);
+ count--;
+ }
+ else if (pos>1 && pos<count)
+ {
+ temp=first;
+ for(i=1;i<pos-1;i++)
+ {
+ temp=temp->next;
+ }
+ ptr=temp->next;
+ temp->next=ptr->next;
+ free(ptr);
+ count--;
+ }
+ else
+ {
+ printf("invalid");
+ }
+}
+void traversal()
+{
+ temp=first;
+ while(temp->next!=first)
+ {
+ printf("%d\t",temp->data);
+ temp=temp->next;
+ }
+ printf("%d\t",temp->data);
+}
+
+void search()
+{
+int x,flag=0;
+temp=first;
+printf("enter");
+scanf("%d",&x);
+while(temp->next!=first)
+{
+if(temp->data==x)
+{
+printf("found\n");
+flag=1;
+}
+temp=temp->next;
+}
+if(flag==0)
+{
+printf("not found\n");
+}
+}
